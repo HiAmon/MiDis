@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.amon.wfx.manager.urp.dao.ModuleDAO">
+
+
+    <resultMap id="moduleMap" type="Level1Module">
+        <result column="pcode" property="moduleCode"/>
+        <result column="pname" property="text"/>
+        <result column="plink" property="href"/>
+        <collection property="nodes" ofType="Level2Module">
+            <result column="ccode" property="moduleCode"/>
+            <result column="cname" property="text"/>
+            <result column="clink" property="href"/>
+            <collection property="nodes" ofType="Level3Module">
+                <result column="gccode" property="moduleCode"/>
+                <result column="gcname" property="text"/>
+                <result column="gclink" property="href"/>
+            </collection>
+        </collection>
+    </resultMap>
+    <select id="listModules" parameterType="string" resultSets="java.util.List" resultMap="moduleMap">
+                        select
+            mp.module_code pcode,
+            mp.module_name pname,
+            mp.link_url plink,
+            mc.module_code ccode,
+            mc.module_name cname,
+            mc.link_url clink,
+            mgc.module_code gccode,
+            mgc.module_name gcname,
+            mgc.link_url gclink
+        from sys_module mp join sys_module mc join sys_module mgc
+        on mp.module_code = mc.parent_module
+            and mc.module_code = mgc.parent_module
+            where mc.module_code
+        in (select
+            m.module_code
+            from sys_module m
+                join sys_role_fun rf
+                join sys_role r
+                join sys_user_role ur
+                join user_info u
+            on m.module_code = rf.module_id
+                and rf.role_id = r.role_code
+                and r.role_code = ur.role_id
+                and ur.user_id = u.user_id
+            where u.account = #{account}  and mp.parent_module='01')
+            order by mp.module_order,mc.module_order,mgc.module_order
+    </select>
+    
+    
+    <select id="listModuleCodesByUserAccount" resultSets="java.util.List" resultType="string">
+        select module_id from sys_role_fun rf, user_info u,sys_user_role ur
+        where rf.role_id = ur.role_id and ur.user_id=u.user_id and u.account=#{account}
+    </select>
+
+</mapper>

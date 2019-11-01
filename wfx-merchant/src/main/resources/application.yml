@@ -1,0 +1,43 @@
+spring:
+  datasource:
+    druid:
+      url: jdbc:mysql://47.97.41.73:3306/db_midis?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=CST&allowPublicKeyRetrieval=true
+      username: root
+      password: Amon_1998
+      initial-size: 1
+      min-idle: 1
+      max-active: 20
+      test-on-borrow: true
+      driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+#    database: 3
+    host: 47.102.115.141
+    post: 6379
+    password: g13995892008
+    timeout: 10000
+#    pool:
+#    max-active: 8
+#      max-idle: 8
+#      min-idle: 0
+#      max-wait: -1
+
+#jedis :
+#  pool :
+#    host : 47.97.41.73
+#    port : 6379
+#    config :
+#      maxTotal: 100
+#      maxIdle: 10
+#      maxWaitMillis : 100000
+
+mybatis:
+  mapper-locations: classpath:mappers/*Mapper.xml
+  type-aliases-package: com.amon.wfx.merchant.*.pojos
+
+logging:
+  file: logs/logfile.log
+  level:
+    org.springframework.web: debug
+
+server:
+  port: 9090

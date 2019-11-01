@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.amon.wfx.manager.urp.dao.RoleDAO">
+
+    <resultMap id="rolemap" type="Role">
+        <id column="role_code" property="roleCode"/>
+        <result column="role_name" property="roleName"/>
+        <result column="role_desc" property="roleDesc"/>
+    </resultMap>
+    <select id="listRoles" resultMap="rolemap" resultSets="java.util.List">
+        select role_code,role_name,role_desc from sys_role order by role_order
+    </select>
+
+    <select id="listModuleCodeByRoleId" parameterType="string" resultSets="java.util.List" resultType="string">
+                select
+            module_id
+        from sys_role_fun
+        where role_id=#{roleId}
+    </select>
+
+    <select id="listRoleCodesByUserAccount" resultType="string" resultSets="java.util.List">
+        select ur.role_id from sys_user_role ur ,user_info ui where ur.user_id = ui.user_id and account=#{account}
+    </select>
+
+    <!--   >>>>>分级授权业务 <<<<<-->
+
+    <insert id="grantModule" parameterType="string">
+        insert into sys_role_fun (role_id,module_id) values(#{roleId} , #{moduleCode})
+    </insert>
+
+    <delete id="unGrantModule" parameterType="string" >
+        delete from sys_role_fun where role_id=#{roleId} and module_id=#{moduleCode}
+    </delete>
+
+    <select id="listParentModuleCodeByChild" resultType="string">
+        select parent_module from sys_module where module_code=#{childModuleCode}
+    </select>
+
+    <select id="listChildModuleCodesByParent" resultType="string" resultSets="java.util.List">
+        select module_code from sys_module where parent_module=#{parentModuleCode}
+    </select>
+
+    <select id="listChildModuleCodesByParentWithRoleId"  resultType="string" resultSets="java.util.List">
+        select module_code from sys_role_fun rf,sys_module m where rf.module_id=m.module_code and parent_module=#{parentModuleCode}
+        and module_code in
+        (select module_id from sys_role_fun where role_id=#{roleId})
+        group by module_code
+    </select>
+
+
+</mapper>

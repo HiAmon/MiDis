@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<!-- saved from url=(0062)http://javen666.com:9999/fxmall/buy/1/cGIxbjNyeWEtMDM0NTI0MTQ= -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <base th:href="${#request.getContextPath()}+'/'">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="pragma" content="no-cache">
+    <meta name="Cache-Control" content="no-cache, must-revalidate">
+    <meta name="expires" content="Wed, 26 Feb 1997 08:21:57 GMT">
+    <title>订单信息</title>
+    <link rel="stylesheet" type="text/css" href="../res/buy.css">
+    <link rel="stylesheet" type="text/css" href="../res/tempAlert.css">
+    <link rel="shortcut icon" href="http://javen666.com:9999/fxmall/wxb/images/favicon.ico">
+    <link rel="icon" type="image/gif" href="http://javen666.com:9999/fxmall/wxb/images/favicon.gif">
+    <style type="text/css">
+        body, html{width: 100%;height: 100%;margin:0;font-family:"微软雅黑";font-size:14px;}
+        #l-map{height:300px;width:100%;}
+    </style>
+    <script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=xWCTBHyDEWEYu7RHFa2Vazw4hu4Qo2BC"></script>
+</head>
+<body>
+<div class="container" style="padding: 50px 150px">
+
+    <form id="form_buy" name="form_buy" class="buy-form" method="post" action="order/save">
+        <input type="hidden" id="token" name="token" value="bpHjQ0Aqetmrh4+sVimKIQ==">
+        <input type="hidden" name="attr_id" id="attr_id" value="">
+        <input type="hidden" name="miaoshu" id="miaoshu" value="20">
+
+        <section class="item_sec">
+            <div class="item_wrap rel">
+                <div class="img_wrap"><img src="../res/pb1n3rya_1.jpg" height="70"></div>
+                <p class="item_tle">444</p>
+                <p class="item_pay">货到付款并包邮</p>
+
+                <ul class="sku_ul"></ul>
+
+                <p>已有：<font style="color:red;text-align:center"> 26 </font>人购买</p>
+
+                <p class="row">
+                    <label>价　格 </label>
+                    <span class="i_pri" id="item_price"><input type="hidden" value="96" id="skuId" >￥ 96.00</span>
+                </p>
+
+<!--                <input required="required" id="item_num" name="number" maxlength="3" class="block input" type="hidden"-->
+<!--                       value="1">-->
+                <p class="row">
+                    <label>数　量 </label>
+                    <input required="required" id="item_num" name="number" maxlength="3" class="block input" style="width:40px;text-align:center" type="tel" value="1">
+                </p>
+                <p>
+                    <input type="radio" id="pay_type1" name="pay_type" onclick="changePrice()" value="1" >货到付款并包邮(支持开箱验货)
+                    <input type="radio" id="pay_type2" name="pay_type" onclick="changePrice()" value="2" checked="checked"> 微信支付
+                </p>
+            </div>
+        </section>
+        <section class="item_sec">
+            <div class="item_wrap add">
+                <p class="row">
+                    <label for="buyerName">收货人</label>
+                    <input required="required" id="buyerName" name="buyerName" class="block input" type="text" value=""
+                           placeholder="请输入您的姓名或称呼">
+                </p>
+                <p class="row">
+                    <label for="buyerPhone">联系手机</label>
+                    <input required="required" id="buyerPhone" name="buyerPhone" maxlength="11" class="block input" type="tel"
+                           value="" placeholder="请输入您的手机号码">
+                </p>
+                <p class="row">
+                    <label for="province">选择地区</label>
+                    <select class="select" id="province" name="province" >
+                        <option value="">省 必选</option>
+                    </select>
+                    <select class="select" id="city" name="city" >
+                        <option value="">市 必选</option>
+                    </select>
+                    <select class="select" id="area" name="area" onchange="baiduMap()">
+                        <option value="">区 必选</option>
+                    </select>
+                </p>
+
+                <p class="row row_area">
+                    <div id="l-map"></div>
+                </p>
+
+                <p class="row row_area">
+                    <label for="detailAddr">详细地址</label>
+                    <input required="required" id="detailAddr" name="address" class="block input"
+                           placeholder="请填写详细地址，方便快递人员送货上门"
+                           type="text" value="">
+                <div id="searchResultPanel"
+                     style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+                </p>
+                <p class="row row_area">
+                    <label for="buyerRemark">您的留言</label>
+                    <input id="buyerRemark" name="buyerRemark" class="block input" type="text" value=""
+                           placeholder="可以告诉卖家您对商品的特殊要求，如：颜色、数量等">
+                </p>
+
+
+<!--                <p id="mbcaptchaWrap" class="row row_area" style="display:none;">-->
+<!--                    <label for="mbcaptcha">手机验证码</label>-->
+<!--                    <input id="mbcaptcha" name="mbcaptcha" class="block input mbcaptcha" type="text" value="">-->
+<!--                    <input id="ckbtn" name="ckbtn" type="button" onclick="getMobileCode();" title="点击获取手机验证码"-->
+<!--                           style="border:0px solid #fff;width:100px;height:30px;background:#f60;cursor:pointer;color:#fff"-->
+<!--                           value="获取验证码">-->
+<!--                </p>-->
+
+<!--                <p id="captchaWrap" style="display: none;" class="row row_area">-->
+<!--                    <label for="captcha">验证码</label>-->
+<!--                    <input id="captcha" name="captcha" class="block input captcha" type="text" value="">-->
+<!--                    <img class="check-code js-refresh-check" src="captcha" alt="验证码">-->
+<!--                </p>-->
+            </div>
+        </section>
+        <footer>
+            <button type="button" class="c_txt orange_bg" id="buy_now" onclick="orderSubmit()">提交订单</button>
+        </footer>
+
+        <div style="height:100px;">&nbsp;
+            注：提交订单后我们会有专门的客服与您联系，请保持手机畅通。
+        </div>
+
+    </form>
+</div>
+
+<script type="text/javascript" src="../res/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="../res/address.js"></script>
+<script type="text/javascript" src="../res/tempAlert.js"></script>
+<script type="text/javascript" src="../res/order_detail.js"></script>
+<!--百度地图API功能-->
+<script type="text/javascript">
+
+    // 百度地图API功能
+    function G(id) {
+        return document.getElementById(id);
+    }
+
+    var map = new BMap.Map("l-map");
+
+    map.centerAndZoom("北京",12);                   // 初始化地图,设置城市和地图级别。
+
+    function baiduMap() {
+        var kkkarea = $("#area").val();
+        map.centerAndZoom(kkkarea,12);
+    }
+
+    var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
+        {"input" : "detailAddr"
+            ,"location" : map
+        });
+
+    ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
+        var str = "";
+        var _value = e.fromitem.value;
+        var value = "";
+        if (e.fromitem.index > -1) {
+            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        }
+        str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+
+        value = "";
+        if (e.toitem.index > -1) {
+            _value = e.toitem.value;
+            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        }
+        str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+        G("searchResultPanel").innerHTML = str;
+    });
+
+    var myValue;
+    ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+        var _value = e.item.value;
+        myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        G("searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+
+        setPlace();
+    });
+
+    function setPlace(){
+        map.clearOverlays();    //清除地图上所有覆盖物
+        function myFun(){
+            var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
+            map.centerAndZoom(pp, 18);
+            map.addOverlay(new BMap.Marker(pp));    //添加标注
+        }
+        var local = new BMap.LocalSearch(map, { //智能搜索
+            onSearchComplete: myFun
+        });
+        local.search(myValue);
+    }
+</script>
+
+
+<script type="text/javascript">
+    function orderSubmit() {
+        var obj = {};
+
+        obj['item_price'] = $("#item_price input").val();
+        obj['item_num'] = $("#item_num").val();
+        obj['payType'] = $("#pay_type1").val();
+        obj['buyerName'] = $("#buyerName").val();
+        obj['buyerPhone'] = $("#buyerPhone").val();
+        obj['province'] = $("#province").val();
+        obj['city'] = $("#city").val();
+        obj['area'] = $("#area").val();
+        obj['address'] = $("#detailAddr").val();
+        obj['buyerRemark'] = $("#buyerRemark").val();
+
+        var jsonStr = JSON.stringify(obj);
+        console.log(obj);
+
+        $.ajax({
+            url: "order/add",
+            type: "POST",
+            data: jsonStr,
+            dataType: "text",
+            contentType: "application/json",
+            success: function (res) {
+                console.log("下单成功");
+                window.location.href="http://localhost:9999/pay.html";
+            }
+        });
+
+
+    }
+
+
+</script>
+
+<style>
+    .zzsc {
+        width: 50px;
+        height: 45px;
+        position: fixed;
+        right: 0;
+        top: 60%;
+        margin-top: -125px;
+        z-index: 900;
+    }
+
+    .zzsc a {
+        width: 50px;
+        height: 45px;
+        float: left;
+        display: block;
+        margin-bottom: 8px;
+    }
+</style>
+<div class="zzsc">
+</div>
+</body>
+</html>

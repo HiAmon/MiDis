@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.amon.wfx.merchant.goods.dao.GoodDAO">
+
+    <insert id="insertGood" parameterType="Good" >
+        insert into
+        wxb_good(
+        good_id,
+        good_name,
+        customer_id,
+        good_pic,
+        good_pic1,
+        good_pic2,
+        promote_desc,
+        copy_ids,
+        copy_desc,
+        forward_link,
+        order_no,
+        type_id,
+        tags,
+        state,
+        create_time,
+        spc_id,
+        zon_id,
+        sell_num,
+        website
+        )values(
+        #{goodId},#{goodName},#{customerId},#{goodPic1},#{goodPic2},
+        #{goodPic3},#{promoteDesc},
+        #{copyIds},#{copyDesc},#{forwardLink},#{orderNo},
+        #{typeId},#{tags},#{state},#{createTime},#{spcId},#{zonId},
+        #{sellNum},#{website})
+    </insert>
+
+
+
+    <resultMap id="goodsmap" type="Good">
+        <id column="good_id" property="goodId"/>
+        <result column="good_name" property="goodName"/>
+        <result column="customer_id" property="customerId"/>
+        <result column="good_pic" property="goodPic1"/>
+        <result column="good_pic1" property="goodPic2"/>
+        <result column="good_pic2" property="goodPic3"/>
+        <result column="promote_desc" property="promoteDesc"/>
+        <result column="copy_ids" property="copyIds"/>
+        <result column="copy_desc" property="copyDesc"/>
+        <result column="forward_link" property="forwardLink"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="type_id" property="typeId"/>
+        <result column="tags" property="tags"/>
+        <result column="state" property="state"/>
+        <result column="create_time" property="createTime"/>
+        <result column="spc_id" property="spcId"/>
+        <result column="zon_id" property="zonId"/>
+        <result column="sell_num" property="sellNum"/>
+        <result column="website" property="website"/>
+    </resultMap>
+
+    <select id="listAll" resultMap="goodsmap" resultSets="java.util.List" >
+        select
+            good_id,
+            good_name,
+            customer_id,
+            good_pic,
+            good_pic1,
+            good_pic2,
+            promote_desc,
+            copy_ids,
+            copy_desc,
+            forward_link,
+            order_no,
+            type_id,
+            tags,
+            state,
+            create_time,
+            spc_id,
+            zon_id,
+            sell_num,
+            website
+        from wxb_good
+    </select>
+
+    <select id="listGoodsByCustomerId" resultSets="java.util.List" resultMap="goodsmap">
+        select
+            good_id,
+            good_name,
+            customer_id,
+            good_pic,
+            good_pic1,
+            good_pic2,
+            promote_desc,
+            copy_ids,
+            copy_desc,
+            forward_link,
+            order_no,
+            type_id,
+            tags,
+            state,
+            create_time,
+            spc_id,
+            zon_id,
+            sell_num,
+            website
+        from wxb_good
+        where customer_id = #{customerId}
+        limit #{start},#{pageSize}
+    </select>
+
+    <update id="updateGood" parameterType="String" >
+        update wxb_good set good_name = #{goodName} where good_id=#{goodId}
+    </update>
+
+    <delete id="deleteGoods" parameterType="String">
+        delete from wxb_good where good_id = #{goodId}
+    </delete>
+
+</mapper>

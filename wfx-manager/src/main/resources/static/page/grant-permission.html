@@ -1,0 +1,111 @@
+
+
+<div class="container-fluid">
+    <div><h5> <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 角色信息管理</h5></div>
+    <div class="bs-example" data-example-id="bordered-table">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>选择</th>
+                <th>角色编号</th>
+                <th>角色名称</th>
+                <th>角色描述</th>
+
+            </tr>
+            </thead>
+
+            <tbody id="tbody" align="center">
+            </tbody>
+
+        </table>
+
+        <table class="table">
+            <tr>
+               <td>
+                   <button type="button" id="grantButton" class="btn btn-default" data-toggle="modal" data-target="#myModal">授权</button>
+                   <button type="button" class="btn btn-primary">添加角色</button>
+                   <button type="button" class="btn btn-success">修改角色</button>
+                   <button type="button" class="btn btn-danger">删除角色</button>
+               </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">角色授权管理</h4>
+            </div>
+            <div class="modal-body">
+                <div id="treeview-checkable" class=""></div>
+            </div>
+            <div class="modal-footer">
+<!--                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>-->
+<!--                <button type="button" class="btn btn-primary">保存修改</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script type="text/javascript">
+
+    function showTree(defaultData,roleCode) {
+        var $checkableTree = $('#treeview-checkable').treeview({
+            data: defaultData,
+            levels: 3,
+            showIcon: false,
+            showCheckbox: true,
+            onNodeChecked: function(event, node) {
+                console.log(node);
+                $.post("/role/grant",{roleId:roleCode,moCode:node.moduleCode,grantOpt:1},function (data) {
+
+                    showTree(data,roleCode)
+                });
+            },
+            onNodeUnchecked: function (event, node) {
+                $.post("/role/grant",{roleId:roleCode,moCode:node.moduleCode,grantOpt:0},function (data) {
+                    showTree(data,roleCode)
+                });
+            }
+        });
+    }
+
+    function queryModules(roleCode) {
+        //根据当前角色id，获取该角色拥有的权限树
+        $.post("/role/roleModules",{roleId:roleCode},function (defaultData) {
+            console.log(defaultData);
+            showTree(defaultData,roleCode);
+        },"json");
+    }
+
+    $(function () {
+        $.post("/role/list",{},function (data) {
+            for(var i = 0;i<data.length;i++){
+                var role = data[i];
+                var tr = "<tr><td><label>"+(i+1)+"</label></td><td><input type='radio' name='radio' value='"+data[i].roleCode+"' /></td><td>"+data[i].roleCode+"</td><td>"+data[i].roleName+"</td><td>"+data[i].roleDesc+"</td></tr>";
+                $("#tbody").append(tr);
+            }
+        },"json");
+
+        $("#grantButton").click(function () {
+            var radioTags =  document.getElementsByName("radio");
+            var roleCode = "";
+            for (var i = 0;i<radioTags.length;i++){
+                if (radioTags[i].checked){
+                    roleCode = radioTags[i].value;
+                }
+            }
+            queryModules(roleCode);
+        });
+    })
+
+</script>

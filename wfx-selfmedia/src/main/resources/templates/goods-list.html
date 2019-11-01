@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head xmlns="http://www.thymeleaf.org">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+    <title>自媒体盈利平台</title>
+    <base th:href="${#request.getContextPath()}+'/'">
+    <meta property="qc:admins" content="4441727777670263757">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../res/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../res/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../res/style-metronic.css">
+    <link rel="stylesheet" type="text/css" href="../res/style.css">
+    <!--[if IE 8]>
+    <script type="text/javascript" src="respond.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="../res/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="../res/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../res/underscore-min.js"></script>
+    <script type="text/javascript" src="../res/back-to-top.js"></script>
+    <script type="text/javascript" src="../res/jquery.cookie.min.js"></script>
+    <script type="text/javascript" src="../res/win.js"></script>
+    <script type="text/javascript" src="../res/app.js"></script>
+
+</head>
+<body class="admin" style="">
+<!-- top start-->
+
+
+<div class="header signup-header">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                <img src="../res/amon.png" id="logoimg" alt="logo" style="height: 52px;"/>
+            </a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="menu-user dropdown">
+                    <span class="sep"></span>
+                    <span class="user-btn" id="dropdownMenu1" data-toggle="dropdown">
+                        <i class="fa fa-user"></i>
+                      qq123456
+                    </span>
+                    <span class="caret"></span>
+                    <ul class="dropdown-menu user-box" role="menu" aria-labelledby="dropdownMenu1">
+                        <li>
+                            <a href="#"><i class="fa fa-user"></i> 我的资料 </a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-power-off"></i> 注销用户 </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- top over-->
+<div class="page-container" style="min-height: 309px;">
+    <div class="container">
+        <div class="page-border">
+            <div class="row">
+                <div class="col-xs-2 layout-left">
+                    <!-- menu start-->
+
+                    <div class="menu_box" id="menuBar">
+                        <dl class="menu ">
+                            <dt class="menu_title clickable  ">
+                                <a href="#">
+                                    <i class="icon_menu fa fa-user"></i>用户中心
+                                </a>
+                            </dt>
+                        </dl>
+                        <dl class="menu ">
+                            <dt class="menu_title clickable selected">
+                                <a href="#">
+                                    <i class="icon_menu fa fa-cubes"></i>产品及文案
+                                </a>
+                            </dt>
+
+                        </dl>
+                        <dl class="menu ">
+                            <dt class="menu_title clickable ">
+                                <a href="#">
+                                    <i class="icon_menu fa fa-cubes"></i>特色推广
+                                </a>
+                            </dt>
+
+                        </dl>
+                        <dl class="menu">
+                            <dt class="menu_title"><i class="icon_menu fa fa-file-text"></i>订单与结算</dt>
+                            <dd class="menu_item ">
+                                <a href="#">我推广的订单</a>
+                            </dd>
+                            <dd class="menu_item ">
+                                <a href="#">结算与返款</a>
+                            </dd>
+                            <dd class="menu_item ">
+                                <a href="#">订单结算流水</a>
+                            </dd>
+                        </dl>
+
+
+                        <dl class="menu ">
+                            <dt class="menu_title"><i class="icon_menu fa fa-pie-chart"></i>订单统计</dt>
+                            <dd class="menu_item ">
+                                <a href="#">商品推广统计</a>
+                            </dd>
+                            <dd class="menu_item ">
+                                <a href="#">渠道推广统计</a>
+                            </dd>
+                        </dl>
+                        <dl class="menu ">
+                            <dt class="menu_title"><i class="icon_menu fa fa-cog"></i>资料设置</dt>
+                            <dd class="menu_item ">
+                                <a href="#">渠道设置</a>
+                            </dd>
+                            <dd class="menu_item ">
+                                <a href="#">基本信息</a>
+                            </dd>
+                            <dd class="menu_item ">
+                                <a href="../res/user/reset">修改密码</a>
+                            </dd>
+                        </dl>
+                        <dl class="menu ">
+                            <dt class="menu_title clickable">
+                                <a href="../res/user/logout">
+                                    <i class="icon_menu fa fa-power-off"></i>退出登录
+                                </a>
+                            </dt>
+                        </dl>
+                    </div>
+                    <!-- menu over-->
+                </div>
+
+                <div class="col-xs-10 layout-right min-height-1">
+                    <style>
+                        .goodsList_table .cover {
+                            width: 150px;
+                            margin-top: 3px;
+                        }
+
+                        .goodsList_table .goods-link {
+                            font-size: 16px;
+                            padding-bottom: 10px;
+                            display: inline-block;
+                        }
+
+                        .goodsList_table em {
+                            font-style: normal;
+                            color: #666666;
+                            font-weight: bold;
+                        }
+
+                        .tag-type1.tag-type1-4:hover {
+                            color: #f49800;
+                            border-color: #f49800;
+                        }
+
+                        .tag-type1.tag-type1-4.active {
+                            color: #fff;
+                            background-color: #f49800;
+                            border-color: #f49800;
+                        }
+
+                        .tag-type1.tag-type1-3:hover {
+                            color: #e72980;
+                            border-color: #e72980;
+                        }
+
+                        .tag-type1.tag-type1-3.active {
+                            color: #fff;
+                            background-color: #e72980;
+                            border-color: #e72980;
+                        }
+
+                        .tag-type1.tag-type1-2:hover {
+                            color: #7dbe26;
+                            border-color: #7dbe26;
+                        }
+
+                        .tag-type1.tag-type1-2.active {
+                            color: #fff;
+                            background-color: #7dbe26;
+                            border-color: #7dbe26;
+                        }
+
+                        .tag-type1.tag-type1-1:hover {
+                            color: #dd0000;
+                            border-color: #dd0000;
+                        }
+
+                        .tag-type1.tag-type1-1.active {
+                            color: #fff;
+                            background-color: #dd0000;
+                            border-color: #dd0000;
+                        }
+                    </style>
+                    <h2 class="page-title"><em>产品及文案</em></h2>
+                    <div class="top-area clearfix">
+                        <form>
+                            <select class="select-style-1" name="customer_id">
+                                <option value="">选择商户</option>
+
+
+                                <option value="69609206">qq123456</option>
+
+
+                            </select>
+                            <select class="select-style-1" name="type_id">
+                                <option value="">商品分类</option>
+
+
+                                <option value="01">保健品</option>
+
+                                <option value="02">饰品</option>
+
+                                <option value="03">护肤品</option>
+
+                                <option value="04">床上用品</option>
+
+                                <option value="05">生活用品</option>
+
+                                <option value="06">减肥产品</option>
+
+                                <option value="07">113</option>
+
+                                <option value="08">23</option>
+
+
+                            </select>
+                            <select class="select-style-1" style="width:140px" name="sort_type">
+                                <option value="toped">按商品置顶排序</option>
+                                <option value="recommed">按商品推荐排序</option>
+                                <option value="level">按商户等级排序</option>
+                            </select>
+                            <!-- div class="input-group" id="js-sel-tag" style="width: 440px;">
+                                <input id="tag_id" name="tag_id" value="" type="hidden">
+                                <span class="tag-type1 tag-type1-all active">全部 </span>
+
+
+                                       <span class="tag-type1 tag-type1-1 " data-id="1">热销爆款</span>
+
+                                       <span class="tag-type1 tag-type1-2 " data-id="2">女粉推荐</span>
+
+                                       <span class="tag-type1 tag-type1-3 " data-id="3">男粉推荐</span>
+
+                                       <span class="tag-type1 tag-type1-4 " data-id="4">人气新品</span>
+
+                                       <span class="tag-type1 tag-type1-5 " data-id="5">男女通用</span>
+
+
+                            </div>-->
+                            <div class="pull-right search_div">
+                                <div class="input-group">
+                                    <input type="text" id="searchInput" class="form-control">
+                                    <span class="input-group-btn">
+                                        <button class="btn red search_btn" id="searchBtn"><i class="fa fa-search"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="margin-top-10">
+                        <table id="goodsList" class="table table-advance table-cps table-hover goodsList_table">
+                            <thead>
+                                <tr>
+                                    <th width="170">商品图片</th>
+                                    <th>商品名称</th>
+                                    <th class="text-center" width="180">价格/分成</th>
+                                    <th class="text-center" width="140">推广详情</th>
+                                    <th class="text-center" width="140">立即推广</th>
+                                </tr>
+                            </thead>
+                            <tbody id="mytbody">
+                            </tbody>
+                        </table>
+
+                        <!--分页-->
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination" id="pageul"></ul>
+                                </nav>
+                            <input type="hidden" id="pageNum" value="1" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        var pn = $("#pageNum").val();
+        $.post("/goods/list",{pageNum:pn},function (pageUtil) {
+
+            //拿到页面所需数据
+            showData(pageUtil);
+
+        },"json");
+
+        $("#searchBtn").click(function () {
+            var kw = $("#searchInput").val();
+            $.post("goods/search",{keyword:kw,pageNum:pn},function (pageUtil) {
+
+                showData(pageUtil);
+            },"json");
+        });
+
+    })
+
+
+
+
+    function showData(pageUtil) {
+        var goodslist = pageUtil.data;
+        var pageNum = pageUtil.pageNum;
+        var url = pageUtil.url;
+        var pageCount = pageUtil.pageCount;
+        $("#pageNum").val(pageNum+1);
+        //先显示所有页数
+
+        var goodsStr = "";
+        var pageli1 = "<li id=\"headpage\"><a href=\"#\" aria-label=\"Previous\"> <span aria-hidden=\"true\"> << </span></a></li>";
+        var pageli = "";
+        for (var i = 0;i<goodslist.length;i++) {
+
+            var goods = goodslist[i];
+            var strtr = "";
+
+            var str1 = "<tr><td style='vertical-align:top;'><img class='cover' src='"+goods.goodPic+"' alt=''></td>" +
+                "<td style='vertical-align: top;'><a class='goods-link' href='#' >"+goods.goodName+"</a>" +
+                "<div class='goods-tags-wrap'>";
+
+            var tag1 = "<span  class='label label-女粉推荐' style='background-color:#e72980;'>女粉推荐</span>";
+
+            var tag2 = "<span  class='label label-男粉推荐' style='background-color:#f49800;'>男粉推荐</span>";
+
+            var str3 = "</div><p><em >商户名称：</em>"+goods.customerName+"</p>" +
+                "<p><em >商户等级：</em>认证商户V"+goods.level+"</p></td>" +
+                "<td class='text-center'><p>" +
+                "<span class='label' style='background-color:#f49800;'>套餐 "+goods.skuName+"</span>" +
+                "<span class='label' style='background-color:#f49800;'>￥单价"+goods.skuPrice+"</span>" +
+                "<span class='label' style='background-color:#f49800;'>提成"+goods.skuPmoney+"</span></p></td>" +
+                "<td class='text-center'><p><span>"+goods.promoteDesc+"</span></p></td>"+
+                "<td class='text-center'><a class='btn btn-yellow' href='http://localhost:9999/goods/detail?goodsId="+goods.id+"'>★立即推广赚钱</a></td></tr>";
+
+
+
+            var tagstr = "";
+            switch (goods.tags) {
+                case "1":
+                    tagstr = tag1;break;
+                case "2":
+                    tagstr = tag2;break;
+            }
+
+            var pageli3 = "<li ><a href='javascript:void(0)' onclick='pageJump("+(i+1)+")'>"+(i+1)+"</a></li>";
+
+
+            strtr += str1 + tagstr + str3;
+            goodsStr += strtr;
+
+            pageli += pageli3;
+        }
+        var pageli2 = "<li id=\"tailpage\"><a href=\"#\" aria-label=\"Next\"> <span aria-hidden=\"true\"> >> </span></a></li>";
+
+
+
+        $("#pageul").append(pageli1+pageli+pageli2);
+        $("#mytbody").append(goodsStr);
+    }
+
+    function pageJump(pageNum) {
+        $.post("/goods/list",{pageNum:pageNum},function (pageUtil) {
+            //拿到页面所需数据
+
+            $("#pageul").html("");
+            $("#mytbody").html("");
+            showData(pageUtil);
+        },"json");
+    }
+
+</script>
+
+<!-- footer start-->
+
+
+<div class="right-service closed">
+    <img class="RS-img" src="wxb.png">
+    <div class="RS-wrap">
+        <div class="RS-title">@在线客服<span class="RS-title-right-btn"><i class="fa fa-angle-right"></i></span></div>
+        <div class="RS-title-for-closed"><i class="fa fa-ellipsis-h"></i><br>在线客服</div>
+        <ul class="RS-ul">
+            <li class="RS-i1"><a
+                    href="tencent://message/?uin=123456789&amp;Site=wxb.com&amp;Menu=yes">合作咨询<br><span>小强</span></a>
+            </li>
+            <li class="RS-i2"><a
+                    href="../res/tencent://message/?uin=123456789&amp;Site=wxb.com&amp;Menu=yes">异常订单<br><span>小薇</span></a>
+            </li>
+            <li class="RS-i3"><a
+                    href="../res/tencent://message/?uin=123456789&amp;Site=wxb.com&amp;Menu=yes">财务返款<br><span>小丽</span></a>
+            </li>
+        </ul>
+        <div class="RS-bottom">400-123-1234</div>
+    </div>
+</div>
+
+<div class="copyright">
+    <div class="container text-center">
+        <p>
+            <span class="copyright-icon copyright-icon-1"><img src="copyright-pic-1.jpg" width="94"></span>
+            <span class="copyright-icon copyright-icon-2"><img src="copyright-pic-2.jpg" width="94"></span>
+            <span class="copyright-icon copyright-icon-3"><img src="copyright-pic-3.jpg" width="117"></span>
+            <span class="copyright-icon copyright-icon-4"><img src="copyright-pic-4.jpg" width="109"></span>
+        </p>
+        <p>
+            Copyright ? 2015
+        </p>
+        <p>
+            客服电话：400-123-1234
+        </p>
+
+    </div>
+</div>
+<div id="topcontrol" style="position: fixed; bottom: 110px; right: 10px; opacity: 0; cursor: pointer; " title="返回顶部">
+    <div class="back-to-top"></div>
+</div>
+
+
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        App.init();
+    });
+</script>
+
+<div id="topcontrol1" title="返回顶部" style="position: fixed; bottom: 110px; right: 10px; opacity: 0; cursor: pointer;">
+    <div class="back-to-top"></div>
+</div>
+</body>
+</html>

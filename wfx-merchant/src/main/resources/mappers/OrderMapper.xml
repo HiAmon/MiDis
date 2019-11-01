@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.amon.wfx.merchant.order.dao.OrderDAO">
+
+    <resultMap id="ordermap" type="Order">
+        <id column="oid" property="oid"/>
+        <result column="order_id" property="orderId"/>
+        <result column="good_id" property="goodId"/>
+        <result column="user_id" property="userId"/>
+
+        <result column="sku_name" property="skuName"/>
+        <result column="good_name" property="goodName"/>
+        <result column="buy_num" property="buyNum"/>
+
+        <result column="buyer_name" property="buyerName"/>
+        <result column="buyer_phone" property="buyerPhone"/>
+        <result column="province" property="province"/>
+        <result column="city" property="city"/>
+        <result column="area" property="area"/>
+        <result column="address" property="address"/>
+        <result column="order_ip" property="orderIp"/>
+        <result column="miaoshu" property="miaoshu"/>
+
+        <result column="order_time" property="orderTime"/>
+        <result column="order_type" property="orderType"/>
+        <result column="alipay_state" property="alipayState"/>
+        <result column="pay_type" property="payType"/>
+        <result column="state" property="state"/>
+    </resultMap>
+    
+    
+    <select id="listOrderAll" resultMap="ordermap" resultSets="java.util.List">
+        select 
+            o.oid,
+            o.order_id,
+            o.good_id,
+            o.user_id,
+
+            gsku.sku_name,
+            g.good_name,
+            o.buy_num,
+            o.buyer_name,
+            o.buyer_phone,
+            o.province,
+            o.city,
+            o.area,
+            o.address,
+            o.order_ip,
+            o.miaoshu,
+        
+            o.order_time,
+            o.order_type,
+            o.alipay_state,
+            o.pay_type,
+            o.state
+         
+        from wxb_order o , wxb_good_sku gsku , wxb_good g
+        where gsku.good_id = o.good_id and o.good_id = g.good_id
+        order by o.oid
+    </select>
+
+
+    <update id="updateStateByGoodId" parameterType="String">
+        update wxb_order set state=1 where good_id = #{goodId}
+    </update>
+    
+</mapper>

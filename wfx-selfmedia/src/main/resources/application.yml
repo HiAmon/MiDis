@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    druid:
+      url: jdbc:mysql://47.97.41.73:3306/db_midis?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=CST&allowPublicKeyRetrieval=true
+      username: root
+      password: Amon_1998
+      initial-size: 1
+      min-idle: 1
+      max-active: 20
+      test-on-borrow: true
+      driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    solr:
+      host: http://localhost:8983/solr/wfx_goods_core
+
+mybatis:
+  mapper-locations: classpath:mappers/*Mapper.xml
+  type-aliases-package: com.amon.wfx.selfmedia.*.pojos
+
+logging:
+  file: logs/logfile.log
+  level:
+    org.springframework.web: debug
+
+server:
+  port: 9999

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+</head>
+<body>
+
+<form method="post" enctype="multipart/form-data" id="form1">
+    <tr>
+        <td align="right"><strong>图片预览：</strong></td>
+        <td>
+            <div id="sm_div2">
+                <img  id="sm" style="width:240px;height:150px;border:1px solid #ddd;">
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td align="right"><span class="red">*</span><strong>上传图片：</strong></td>
+        <td>
+            <input type="file" name="uploadGood" id="smfile2" style="width:540px;height:22px;cursor:hand" class="fileinput" onchange="upload()">
+            <!--												checkImgType(this);setPreview(this,'sm_yl2','sm_div2',240,150);-->
+        </td>
+    </tr>
+</form>
+
+<script type="text/javascript">
+    function upload() {
+        //将jquery对象转换成JS对象
+        var formTag = $("#form1")[0];
+
+        var formData = new FormData(formTag);
+        console.log(formData);
+        $.ajax({
+            url: "goods/upload",
+            type: "POST",
+            data: formData,
+            contentType: "false",
+            processData: "false",
+            success: function (data) {
+                console.log(data.tips);
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

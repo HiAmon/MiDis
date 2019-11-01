@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.amon.wfx.manager.urp.dao.UserDAO">
+
+    <resultMap id="usermap" type="User">
+        <id column="user_id" property="userId"/>
+        <result column="user_name" property="username"/>
+        <result column="account" property="account"/>
+        <result column="password" property="password"/>
+        <result column="remark" property="remark"/>
+        <result column="user_type" property="userType"/>
+        <result column="enabled" property="enabled"/>
+    </resultMap>
+    <select id="listAllUsers" resultSets="java.util.List" resultMap="usermap" >
+        select user_id,user_name,account,password,remark,user_type,enabled from user_info
+    </select>
+
+
+    <select id="queryUserByAccount" resultType="User" >
+        select user_id,user_name,account,password,remark,user_type,enabled from user_info where account=#{account}
+    </select>
+
+    <update id="updateUserUnabled" parameterType="string" >
+        update user_info set enabled='0' where user_id=#{userId}
+    </update>
+
+    <update id="updateUserPasswd" parameterType="string" >
+        update user_info set password='123456' where user_id=#{userId}
+    </update>
+
+</mapper>

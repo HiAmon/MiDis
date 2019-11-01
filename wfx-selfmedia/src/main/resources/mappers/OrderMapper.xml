@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.amon.wfx.selfmedia.order.dao.OrderDAO">
+
+    <insert id="addOrder" parameterType="Order" useGeneratedKeys="true" keyProperty="oid" >
+        insert into wxb_order (
+            order_id,
+            buyer_phone,
+            good_id,
+            order_time,
+            channel_id,
+            state,
+            buy_num,
+            province,
+            city,
+            area,
+            buyer_remark,
+            pay_type,
+            buyer_name,
+            sku_id,
+            user_id,
+            address,
+            courier_id,
+            order_remark,
+            sender_type,
+            order_type,
+            admin_remark,
+            operator,
+            check_time,
+            order_ip,
+            update_time,
+            alipay_state,
+            isfk,
+            kdzt,
+            miaoshu
+        ) values (
+              #{orderId},
+              #{buyerPhone},
+              #{goodId},
+              #{orderTime},
+              #{channelId},
+              #{state},
+              #{buyNum},
+              #{province},
+              #{city},
+              #{area},
+              #{buyerRemark},
+              #{payType},
+              #{buyerName},
+              #{skuId},
+              #{userId},
+              #{address},
+              #{courierId},
+              #{orderRemark},
+              #{senderType},
+              #{orderType},
+              #{adminRemark},
+              #{operator},
+              #{checkTime},
+              #{orderIp},
+              #{updateTime},
+              #{alipayState},
+              #{isfk},
+              #{kdzt},
+              #{miaoshu}
+        )
+    </insert>
+
+</mapper>

@@ -1,0 +1,362 @@
+<div class="container-fluid" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div><h5> <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 角色信息管理</h5></div>
+    <div class="bs-example" data-example-id="bordered-table">
+        <table class="table table-bordered">
+
+            <thead>
+            <tr>
+                <th>选择</th>
+                <th>商户编号</th>
+                <th>商户名称</th>
+                <th>QQ号码</th>
+                <th>微信号码</th>
+                <th>联系方式</th>
+                <th>创建时间</th>
+                <th>登录名</th>
+                <th>商户状态</th>
+                <th>账户收支</th>
+                <th>商户等级</th>
+                <th>最后登录时间</th>
+                <th>商户网址</th>
+
+            </tr>
+            </thead>
+
+            <tbody id="tbody" align="center">
+                <tr th:each="mt:${mts}">
+                    <td><input type="checkbox" th:attr="value=${mt.customerId}" name="cbx"/></td>
+                    <td th:text="${mt.customerId}"></td>
+                    <td th:text="${mt.customerName}"></td>
+                    <td th:text="${mt.QQ}"></td>
+                    <td th:text="${mt.wxh}"></td>
+                    <td th:text="${mt.phone}"></td>
+                    <td th:text="${#dates.format(mt.createtime,'yyyy-MM-dd')}"></td>
+                    <td th:text="${mt.loginName}"></td>
+                    <td th:text="${mt.state}"></td>
+                    <td th:text="${mt.accBalance}"></td>
+                    <td th:text="${mt.level}"></td>
+                    <td th:text="${#dates.format(mt.updateTime,'yyyy-MM-dd')}"></td>
+                    <td th:text="${mt.website}"></td>
+                </tr>
+            </tbody>
+
+        </table>
+
+        <table class="table">
+            <tr>
+                <td>
+                    <button type="button" id="grantButton" class="btn btn-default" data-toggle="modal" data-target="#addModal">添加商户</button>
+                    <button type="button" id="updateButton" class="btn btn-primary" data-toggle="modal" data-target="#">修改信息</button>
+                    <!--                     data-toggle="modal"-->
+                    <button type="button" id="unableButton" class="btn btn-danger" data-toggle="modal" data-target="#">禁用商户</button>
+                    <button type="button" id="enableButton" class="btn btn-success" data-toggle="modal" data-target="#">启用商户</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<!--弹出框：添加商户-->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addModalLabel">角色授权管理</h4>
+
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="customerName">商家名称</label>
+                    <input type="text" class="form-control" id="customerName" placeholder="商家名称">
+                </div>
+                <div class="form-group">
+                    <label for="QQ">商家QQ</label>
+                    <input type="text" class="form-control" id="QQ" placeholder="商家QQ">
+                </div>
+                <div class="form-group">
+                    <label for="wxh">商家微信</label>
+                    <input type="text" class="form-control" id="wxh" placeholder="商家微信">
+                </div>
+                <div class="form-group">
+                    <label for="phone">联系方式</label>
+                    <input type="text" class="form-control" id="phone" placeholder="联系方式">
+                </div>
+                <div class="form-group">
+                    <label for="loginName">登录账号</label>
+                    <input type="text" class="form-control" id="loginName" placeholder="登录账号">
+                </div>
+                <div class="form-group">
+                    <label for="loginPwd">登录密码</label>
+                    <input type="text" class="form-control" id="loginPwd" placeholder="登录密码">
+                </div>
+                <div class="form-group">
+                    <label for="state">启用状态</label>
+                    <input type="text" class="form-control" id="state" placeholder="启用状态">
+                </div>
+                <div class="form-group">
+                    <label for="level">商家等级</label>
+                    <input type="number min=1 max=4" class="form-control" id="level" placeholder="商家等级">
+                </div>
+                <div class="form-group">
+                    <label for="website">商家网址</label>
+                    <input type="text" class="form-control" id="website" placeholder="商家网址">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="addMerchant">确认添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--修改商户信息的多选警告框-->
+<div class="modal fade" id="warningModal" tabindex="-1" role="dialog" aria-labelledby="WarningModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="WarningModalLabel">警告！</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label>只能选择一条商户信息进行修改操作</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--修改商户信息 模态框-->
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="updateModalLabel">修改商户信息</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="ucustomerName">商家名称</label>
+                    <input type="text" class="form-control" id="ucustomerName" placeholder="商家名称">
+                </div>
+                <div class="form-group">
+                    <label for="uQQ">商家QQ</label>
+                    <input type="text" class="form-control" id="uQQ" placeholder="商家QQ">
+                </div>
+                <div class="form-group">
+                    <label for="uwxh">商家微信</label>
+                    <input type="text" class="form-control" id="uwxh" placeholder="商家微信">
+                </div>
+                <div class="form-group">
+                    <label for="uphone">联系方式</label>
+                    <input type="text" class="form-control" id="uphone" placeholder="联系方式">
+                </div>
+                <div class="form-group">
+                    <label for="uloginName">登录账号</label>
+                    <input type="text" class="form-control" id="uloginName" placeholder="登录账号">
+                </div>
+                <div class="form-group">
+                    <label for="uloginPwd">登录密码</label>
+                    <input type="text" class="form-control" id="uloginPwd" placeholder="登录密码">
+                </div>
+                <div class="form-group">
+                    <label for="ustate">启用状态</label>
+                    <input type="text" class="form-control" id="ustate" placeholder="启用状态" readonly="readonly">
+                </div>
+                <div class="form-group">
+                    <label for="ulevel">商家等级</label>
+                    <input type="number min=1 max=4" class="form-control" id="ulevel" placeholder="商家等级">
+                </div>
+                <div class="form-group">
+                    <label for="uwebsite">商家网址</label>
+                    <input type="text" class="form-control" id="uwebsite" placeholder="商家网址">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="updateMerchant">确认修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    //数组去空
+    function removeEmpty(arr){
+        for(var i = 0; i < arr.length; i++) {
+            if(arr[i] == "" || typeof(arr[i]) == "undefined") {
+                arr.splice(i,1);
+                i = i - 1; // i - 1 ,因为空元素在数组下标 2 位置，删除空之后，后面的元素要向前补位
+            }
+        }
+        return arr;
+    };
+
+    //全局变量
+    var ctmId = "0";
+    //var count = 0;
+    function getCidOnChecked() {
+        var checkboxes = document.getElementsByName("cbx");
+        var cids = new Array();
+        //遍历判断被选中的节点的个数，以及
+        for (var i = 0;i<checkboxes.length;i++){
+            console.log(checkboxes[i].checked);
+            if (checkboxes[i].checked) {
+                //count++;
+                cids[i] = checkboxes[i].value;
+            }
+        }
+        removeEmpty(cids);
+        return cids;
+    }
+
+
+
+    //添加商户
+    $("#addMerchant").click(function (res) {
+        var customerName = $("#customerName").val();
+        var QQ = $("#QQ").val();
+        var wxh = $("#wxh").val();
+        var phone = $("#phone").val();
+        var loginName = $("#loginName").val();
+        var loginPwd = $("#loginPwd").val();
+        var state = $("#state").val();
+        var level = $("#level").val();
+        var website = $("#website").val();
+        // console.log(customerName);
+        // console.log(loginName);
+        // console.log(loginPwd);
+        $.post("/merchant/add",{
+            customerName:customerName,
+            QQ:QQ,
+            wxh:wxh,
+            phone:phone,
+            loginName:loginName,
+            loginPwd:loginPwd,
+            state:state,
+            level:level,
+            website:website
+        },function (res) {
+
+        },"json");
+    });
+
+    $("#unableButton").click(function (res) {
+        // var checkboxes = document.getElementsByName("cbx");
+        var cids = getCidOnChecked();
+        console.log(cids);
+        //$.post("/merchant/unableMerchant",{customerIds:cids},function (cssjs) {},"json");
+
+        $.ajax({
+            url: "/merchant/unableMerchant",
+            type: "POST",
+            data: {'customerIds':cids},
+            traditional: true,
+            dataType: "text",
+            success:function (res) {
+                console.log(res);
+            }
+        });
+    });
+
+    $("#enableButton").click(function (res) {
+        var cids = getCidOnChecked();
+
+        $.ajax({
+            url: "/merchant/enableMerchant",
+            type: "POST",
+            data: {'customerIds':cids},
+            traditional: true,
+            dataType: "text",
+            success:function (res) {
+                console.log("enable Merchant "+res);
+            }
+        });
+    });
+
+
+
+    $("#updateButton").click(function (res) {
+        //判断多选按钮长度
+        // var checkboxes = document.getElementsByName("cbx");
+        var cids = getCidOnChecked();
+        console.log(cids);
+
+        if (cids.length == 1){
+            // 允许进行修改操作
+            //要找出被选中的哪一个
+            var cid = cids[0];
+            //console.log("cid"+cid);
+            ctmId = cid;
+            $.post("/merchant/queryForUpdate",{customerId:cid},function (data) {
+                console.log(data);
+                $("#ucustomerName").val(data.customerName);
+                $("#uQQ").val(data.QQ);
+                $("#uwxh").val(data.wxh);
+                $("#uphone").val(data.phone);
+                $("#uloginName").val(data.loginName);
+                $("#uloginPwd").val(data.loginPwd);
+                $("#ustate").val(data.state);
+                $("#ulevel").val(data.level);
+                $("#uwebsite").val(data.website);
+
+                $("#updateButton").attr("data-target","#updateModal");
+            },"json");
+        } else {
+            //弹出警告框，不允许进行修改操作
+            $("#updateButton").attr("data-target","#warningModal");
+        }
+    });
+
+    $("#updateMerchant").click(function (res) {
+        var customerName = $("#ucustomerName").val();
+        var QQ = $("#uQQ").val();
+        var wxh = $("#uwxh").val();
+        var phone = $("#uphone").val();
+        var loginName = $("#uloginName").val();
+        var loginPwd = $("#uloginPwd").val();
+        var state = $("#ustate").val();
+        var level = $("#ulevel").val();
+        var website = $("#uwebsite").val();
+
+        //console.log(QQ);
+
+
+        $.post("/merchant/updateMerchant",{
+            customerId:ctmId,
+            customerName:customerName,
+            QQ:QQ,
+            wxh:wxh,
+            phone:phone,
+            loginName:loginName,
+            loginPwd:loginPwd,
+            state:state,
+            level:level,
+            website:website
+        },function (data) {
+            alert(hi);
+            console.log(data);
+            $("#pdateModal").attr("style","display:none");
+
+            // $("#customerName").val(data.customerName);
+            // $("#QQ").val(data.QQ);
+            // $("#wxh").val(data.wxh);
+            // $("#phone").val(data.phone);
+            // $("#loginName").val(data.loginName);
+            // $("#loginPwd").val(data.loginPwd);
+            // $("#state").val(data.state);
+            // $("#level").val(data.level);
+            // $("#website").val(data.website);
+            
+        },"json")
+    });
+
+</script>

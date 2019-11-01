@@ -1,0 +1,141 @@
+<div class="container-fluid" xmlns:th="http://www.w3.org/1999/xhtml">
+        <div class="col-sm-3">
+            <div id="typeTreeview" class="treeview"></div>
+        </div>
+        <div class="col-sm-9">
+
+            <table class="table">
+                <tr>
+                    <td>
+                        <button type="button" id="onshelf" class="btn btn-default" >上架</button>
+                        <button type="button" id="top" class="btn btn-primary" >置顶</button>
+                        <button type="button" id="recomd" class="btn btn-danger" >推荐</button>
+                        <button type="button" id="offshelf" class="btn btn-success" >下架</button>
+                        <button type="button" id="untop" class="btn btn-success" >取消置顶</button>
+                        <button type="button" id="unrecomd" class="btn btn-success" >取消推荐</button>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>选择</th>
+                        <th>商品名称</th>
+                        <th>商品图片</th>
+                        <th>商户名称</th>
+                        <th>产品网址</th>
+                        <th>审核状态</th>
+                        <th>置顶状态</th>
+                        <th>推荐状态</th>
+                    </tr>
+                </thead>
+                <tbody id="goodsbody">
+
+                </tbody>
+            </table>
+
+
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li>
+                        <a href="#" aria-label="Previous">
+                            <span aria-hidden="true"> << </span>
+                        </a>
+                    </li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li>
+                        <a href="#" aria-label="Next">
+                            <span aria-hidden="true"> >> </span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+
+<script type="text/javascript">
+    $(function () {
+
+
+
+        $.ajax({
+            url:"type/list",
+            type: "POST",
+            dataType: "json",
+            success: function (data) {
+                $("#typeTreeview").treeview({
+                    data:data
+                });
+
+            }
+        });
+
+        var pn = 1;
+        $.post("goods/list",{pageNum:pn},function (resultData) {
+
+            var arr = resultData.data;
+            var url = resultData.url;
+            var pn = resultData.pageNum;
+            var pageCount = resultData.pageCount;
+
+            var  trStr = "";
+
+            for (var i = 0;i<arr.length;i++){
+
+                var goods = arr[i];
+                var str0 = "<tr>" +
+                    "<td>"+(i+1)+"</td>" +
+                    "<td><input type='checkbox' name='cbx'/></td>" +
+                    "<td><label>"+goods.goodsName+"</label></td>" +
+                    "<td><img src='"+goods.goodPic+"'></td>" +
+                    "<td><label>"+goods.merchant.customerName+"</label></td>" +
+                    "<td><label>"+goods.website+"</label></td>";
+
+
+                var stateStr = "";
+                var topedStr = "";
+                var recomdStr = "";
+
+                switch (goods.state) {
+                    case 0:
+                        stateStr = "<td><label>待审核</label></td>";break;
+                    case 1:
+                        stateStr = "<td><label>已上架</label></td>";break;
+                    case 2:
+                        stateStr = "<td><label>已下架</label></td>";break;
+                }
+
+
+                switch (goods.toped) {
+                    case 1:
+                        topedStr = "<td><label>未置顶</label></td>";break;
+                    case 0:
+                        topedStr = "<td><label>已置顶</label></td>";break;
+                }
+
+                switch (goods.recomed) {
+                    case 1:
+                        recomdStr = "<td><label>已推荐</label></td>";break;
+                    case 0:
+                        recomdStr = "<td><label>未推荐</label></td>";break;
+                }
+
+                var str4 = "</tr>";
+                var str = str0 + stateStr + topedStr + recomdStr + str4;
+                trStr += str;
+            }
+
+            $("#goodsbody").append(trStr);
+
+
+        },"json");
+
+    });
+</script>

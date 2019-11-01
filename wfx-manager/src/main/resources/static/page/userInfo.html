@@ -1,0 +1,102 @@
+
+<div>
+    <div style="margin-left: 15px"><h5> <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 角色信息管理</h5></div>
+    <div class="bs-example" data-example-id="bordered-table">
+        <table class="table table-bordered" style="width: 98%;" align="center">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>用户ID</th>
+                <th>用户名称</th>
+                <th>用户账号</th>
+                <th>用户备注</th>
+                <th>用户类型</th>
+                <th>用户启用状态</th>
+                <th>用户操作</th>
+            </tr>
+            </thead>
+
+            <tbody id="tbody" align="center">
+            </tbody>
+
+        </table>
+
+        <table class="table table-bordered" style="width: 98%;" align="center">
+            <thead><tr></tr></thead>
+
+            <tbody id="oper" align="center">
+                <button type="button" class="btn btn-primary">添加用户</button>
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">用户信息管理</h4>
+            </div>
+            <div class="modal-body">
+                <div id="treeview-checkable" class=""></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">保存修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="../js/bootstrap-treeview.js"></script>
+
+<script type="text/javascript">
+
+    //重置密码
+    function resetPasswd(userId){
+        $.post("/user/resetPasswd",{userId:userId},function (data) {
+            console.log("resetPasswd"+data);
+
+        },"json");
+    }
+
+    //修改该用户enabled状态为0
+    function unable(userId){
+        $.post("/user/unable",{userId:userId},function (data) {
+            console.log("unable"+data);
+            var ifEnable = $("#ableState_"+userId);
+            if(ifEnable == "0"){
+                $("#able_"+userId).text("启用账号");
+            }else {
+                $("#able_"+userId).text("废除账号");
+            }
+
+        },"json");
+    }
+
+
+    $(function () {
+        $.post("/user/list",{},function (data) {
+            //console.log(data);
+            for(var i = 0;i<data.length;i++){
+               // var user = data[i];
+                var tr = "<tr><td>"+(i+1)+"</td><td>"+data[i].userId+"</td><td>"+data[i].username+"</td><td>"+data[i].account+"</td><td>"+data[i].remark+"</td><td>"+data[i].userType+"</td><td><label id='ableState_"+data[i].userId+"'>"+data[i].enabled+"</label></td><td><button type=\"button\" onclick='resetPasswd("+data[i].userId+")' class=\"btn btn-success btn-sm\" id='reset_"+data[i].userId+"' data-toggle=\"modal\" data-target=\"#myModal\">重置密码</button>  <button type=\"button\" onclick='unable("+data[i].userId+")' class=\"btn btn-danger btn-sm\" id='able_"+data[i].userId+"' data-toggle=\"modal\" data-target=\"#myModal\">废除账号</button></td></tr>";
+                $("#tbody").append(tr);
+            }
+
+        },"json");
+
+
+
+
+    })
+
+
+
+</script>
+

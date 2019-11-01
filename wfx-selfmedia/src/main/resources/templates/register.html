@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head xmlns:th="http://www.thymeleaf.org">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>自媒体-注册</title>
+    <base th:href="${#request.getContextPath()}+'/'">
+
+    <link rel="stylesheet" type="text/css" href="../res/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="../res/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../res/style-metronic.css">
+	<link rel="stylesheet" type="text/css" href="../res/style.css">
+	<link rel="stylesheet" type="text/css" href="../res/index.css">
+	
+
+	<script type="text/javascript" src="../res/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="../res/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../res/jquery.cookie.min.js"></script>
+	<script type="text/javascript" src="../res/jquery.cookie.min.js"></script>
+	<script type="text/javascript" src="../res/jquery.validate.min.js"></script>
+</head>
+<body class="admin" style="">
+<style>
+    .container{
+        width: 1000px;
+    }
+</style>
+<div class="header signup-header">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="http://localhost:9999/user/index">
+                <img src="../res/logo.png" id="logoimg" alt="logo">
+            </a>
+        </div>
+        <div class="pull-right index-header-lsist" style="aligin:right;margin-top:35px;">
+            <span class="index-header-qq">客服QQ：123456789</span>
+            <span class="index-header-qq">QQ群：123456789</span>
+            <span class="index-header-tel">电话：400-123-1234</span>
+        </div>
+    </div>
+</div>
+<div class="page-container" style="min-height: 357px;">
+    <style>
+    .page-container{
+        margin-top: 0;
+    }
+    body{
+        background-color: #fff;
+    }
+    .login-btn .fa-loading{display: none;}
+</style>
+
+
+
+
+
+ <div id="banner" class="index-banner show2">
+    <div class="container">
+        <div class="login-wrap">
+               <div class="login-title text-center">
+	                  <div>
+	                    <input type="radio" name="user_ck" onclick="clickRadio(0);" checked="" id="memeber" value="0">自媒体注册 &nbsp;&nbsp;
+<!--	                    <input type="radio" name="user_ck" onclick="clickRadio(1);" id="customer" value="1">商户登录-->
+	                  </div>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="username" id="username" class="form-control" placeholder="用户名" value="">
+                    <span class="login-icon login-icon-user"></span>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="userphone" id="userphone" class="form-control" placeholder="手机号" value="">
+                    <span class="login-icon login-icon-user"></span>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" id="password" class="form-control" placeholder="设置密码" value="">
+                    <span class="login-icon login-icon-pwd"></span>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 10px;">
+                    <label><input type="checkbox" checked="" name="remember" style="margin-left:0;margin-right:4px;">记住账号</label>
+                </div>
+                <div class="form-group">
+                    <a id="submit" class="btn btn-yellow register-btn"> 注&nbsp;&nbsp;册 </a>
+                </div>
+        </div>
+        <div class="banner-wrap">
+            <div class="banner-1">
+                <img class="b2_cloud" src="../res/2_cloud.png" alt="">
+                <img class="b2_word" src="../res/2_word.png" alt="">
+                <img class="b2_bottom" src="../res/2_bottom.png" alt="">
+                <li style="color:#177EC1">
+	                <b>
+	                    <a class="zt_link" href="http://localhost:9999/user/login#" onclick="javascript:if(confirm('即将推出 敬请期待')) href='#'" ></a>
+	                </b>
+                </li>
+            </div>
+            <div class="banner-2">
+                <img class="b1_cloud" src="../res/1_cloud.png" alt="" />
+                <img class="b1_circle" src="../res/1_circle.png" alt="" />
+                <img class="b1_bottom" src="../res/1_bottom.png" alt="" />
+            </div>
+            <div class="banner-3">
+                <img class="b3_word" src="../res/3_word.png" alt="">
+                <img class="b3_human" src="../res/3_human.png" alt="">
+                <img class="b3_ufo" src="../res/3_ufo.png" alt="">
+                <a class="banner_download_link" target="_blank" href="http://localhost:9999/user/register"></a>
+            </div>
+        </div>
+        <ul class="banner-nav">
+            <li class="" data-index="1"></li>
+            <li data-index="2" class="active"></li>
+            <li data-index="3" class="">=</li>
+        </ul>
+    </div>
+    <div class="arrow-left" style="" data-type="left"></div>
+    <div class="arrow-right" style="" data-type="right"></div>
+</div>
+
+    <script type="text/javascript">
+
+        $(function () {
+            $("#submit").click(function () {
+                var account = $("#username").val();
+                var phone = $("#userphone").val();
+                var password = $("#password").val();
+                // var qqNum = $("#qq").val();
+                // var payAccount = $("#alipay").val();
+                // var password = $("#password").val();
+                console.log(account);
+                console.log(phone);
+                console.log(password);
+                // $.post("/user/register", {account:account,phone:phone,password:password} ,function (data) {
+                //     console.log(data);
+                // },"json");
+
+                var obj = {};
+                obj['account'] = account;
+                obj['phone'] = phone;
+                obj['password'] = password;
+
+                var jsonStr = JSON.stringify(obj);
+                $.ajax({
+                    url: "user/register",
+                    type: "POST",
+                    data: jsonStr,
+                    contentType: "application/json",
+                    success: function (data) {
+
+                        var code = data.code;
+                        //var msg = data.msg;
+                        if (code == "1"){
+                            window.location.href="http://localhost:9999/login.html";
+                        } else if (code == "0") {
+                            window.location.href="http://localhost:9999/register.html";
+                        }
+                    }
+                });
+
+            });
+        });
+    </script>
+
+
+  
+<script src="../res/register-banner.js"></script>
+<div id="advantage">
+   <div class="w1000">
+      <p class="title36">6大平台优势，开启财富之旅</p>
+      <ul>
+         <li class="advantage01"><p><span>一手货源 分成高</span><br>与厂商长期合作，直接发货，平均分成超60%，省去中间环节</p></li>
+         <li class="advantage02"><p><span>一件代发 结算快</span><br>买家下1单，厂商发1单，当天下单当天发出，结算周期短，结算快</p></li>
+         <li class="advantage03"><p><span>正品保证 签收高</span><br>商品通过国家检验标准，品质经过消费者认可，签收率达到90%</p></li>
+         <li class="advantage04"><p><span>提供图文素材 无门槛</span><br>提供精美文案和图片，省去编辑素材的麻烦，您只需复制图文内容</p></li>
+         <li class="advantage05"><p><span>操作简便 赚钱快</span><br>您登录后选择合适的商品，复制并发出图文信息，然后就可以数钱了</p></li>
+         <li class="advantage06"><p><span>专业客服 退换不愁</span><br>每件商品都有专业客服为买家服务，享受各大电商的优质客户服务</p></li>
+      </ul>
+   </div>
+</div>
+
+<div id="security">
+   <div class="w1000" id="securityBox">
+      <h5>4大货源优势，更添安全收益保障</h5>
+      <ul>
+         <li>所有商品在各大知名电商有售，通过<span>专业机构检测，正品保障，假一赔十</span></li>
+         <li>绝不销售三无产品，一律支持验货，<span>全国货到付款</span></li>
+         <li>厂家直接发货，利润留给自媒体</li>
+         <li>每周精选<span>利润高、品质佳、签收高</span>的爆款，周周上新！不仅赚钱还能涨粉！</li>
+      </ul>
+   </div>
+</div>
+
+<div id="massege" class="w1000">
+   <p class="title36">真实用户感言，见证平台精彩</p>
+   <ul>
+      <li>
+         <div><p class="photo01"></p><p class="txt18g">不吃猫****鱼</p><p class="txt14g">前几十单来看，可可这个平台还算是最靠谱的...财务mm这么晚了还在返款</p></div>
+      </li>
+      <li>
+         <div><p class="photo02"></p><p class="txt18g">面****花开</p><p class="txt14g">可可服务挺好的，每次发单都挺放心，有好多平台来挖人 都被我拒绝了！还是你们平台好</p></div>
+      </li>
+      <li>
+         <div><p class="photo03"></p><p class="txt18g">心****忧伤</p><p class="txt14g">试着用小号推了一单，出了十几单破纪录了，小宝还可以</p></div>
+      </li>
+      <li style="margin-right:0px;">
+         <div><p class="photo04"></p><p class="txt18g">Angl**aby</p><p class="txt14g">可可产品上架更新挺给力，我推得几个新品出单都很高 杠杠的哦</p></div>
+      </li>
+   </ul>
+</div>
+
+<div id="joinUs">
+   <div id="joinUsBox" class="w1000">
+      <a class="btn btn-blue index-join-us-btn" href="http://localhost:9999/user/register">立即注册</a>
+      <p class="step4"></p>
+   </div>
+</div>
+
+</div>
+
+<div class="right-service closed">
+   <img class="RS-img" src="../res/wxb.png">
+   <div class="RS-wrap">
+       <div class="RS-title">@在线客服<span class="RS-title-right-btn"><i class="fa fa-angle-right"></i></span></div>
+       <div class="RS-title-for-closed"><i class="fa fa-ellipsis-h"></i><br>在线客服</div>
+       <ul class="RS-ul">
+           <li class="RS-i1"><a href="tencent://message/?uin=594364829&amp;Site=wxb.com&amp;Menu=yes">合作咨询<br><span>小强</span></a></li>
+           <li class="RS-i2"><a href="tencent://message/?uin=594364829&amp;Site=wxb.com&amp;Menu=yes">异常订单<br><span>小微</span></a></li>
+           <li class="RS-i3"><a href="tencent://message/?uin=594364829&amp;Site=wxb.com&amp;Menu=yes">财务返款<br><span>小丽</span></a></li>
+       </ul>
+       <div class="RS-bottom">400-123-1234</div>
+   </div>
+</div>
+    
+<!-- footer start-->
+
+
+<div class="right-service closed">
+   <img class="RS-img" src="../res/wxb.png">
+   <div class="RS-wrap">
+       <div class="RS-title">@在线客服<span class="RS-title-right-btn"><i class="fa fa-angle-right"></i></span></div>
+       <div class="RS-title-for-closed"><i class="fa fa-ellipsis-h"></i><br>在线客服</div>
+       <ul class="RS-ul">
+           <li class="RS-i1"><a href="tencent://message/?uin=123456789&amp;Site=wxb.com&amp;Menu=yes">合作咨询<br><span>小强</span></a></li>
+           <li class="RS-i2"><a href="tencent://message/?uin=123456789&amp;Site=wxb.com&amp;Menu=yes">异常订单<br><span>小薇</span></a></li>
+           <li class="RS-i3"><a href="tencent://message/?uin=123456789&amp;Site=wxb.com&amp;Menu=yes">财务返款<br><span>小丽</span></a></li>
+       </ul>
+       <div class="RS-bottom">400-123-1234</div>
+   </div>
+</div>
+
+<div class="copyright">
+    <div class="container text-center">
+            <p>
+            <span class="copyright-icon copyright-icon-1"><img src="../res/copyright-pic-1.jpg" width="94"></span>
+            <span class="copyright-icon copyright-icon-2"><img src="../res/copyright-pic-2.jpg" width="94"></span>
+            <span class="copyright-icon copyright-icon-3"><img src="../res/copyright-pic-3.jpg" width="117"></span>
+            <span class="copyright-icon copyright-icon-4"><img src="../res/copyright-pic-4.jpg" width="109"></span>
+        </p>
+    	<p>
+            Copyright ? 2015
+        </p>
+        <p>
+            客服电话：400-123-1234
+        </p>
+       
+    </div>
+</div>
+
+
+<div id="topcontrol" title="返回顶部" style="position: fixed; bottom: 110px; right: 10px; opacity: 0; cursor: pointer;"><div class="back-to-top"></div></div></body></html>
